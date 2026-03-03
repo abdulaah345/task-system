@@ -18,10 +18,13 @@ const AuthContextProvider = ({ children }) => {
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await axios.post("https://localhost:7194/api/Auth/login", {
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://tasksystems.runasp.net/api/Auth/login",
+        {
+          email,
+          password,
+        },
+      );
 
       console.log("LOGIN RESPONSE:", res.data);
 
@@ -38,11 +41,14 @@ const AuthContextProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post("https://localhost:7194/api/Auth/register", {
-        name,
-        email,
-        password,
-      });
+      const res = await axios.post(
+        "http://tasksystems.runasp.net/api/Auth/register",
+        {
+          name,
+          email,
+          password,
+        },
+      );
       return res.data;
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data);
