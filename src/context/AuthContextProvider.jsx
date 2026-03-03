@@ -3,6 +3,25 @@ import React, { createContext, useState, useEffect } from "react";
 
 export const AuthContext = createContext();
 
+const BASE_URL = "https://taskssystems.runasp.net/api";
+
+// 🔥 Axios Instance
+const api = axios.create({
+  baseURL: BASE_URL,
+});
+
+// 🔥 Interceptor علشان يبعت التوكن تلقائيًا
+api.interceptors.request.use(
+  (config) => {
+    const savedToken = localStorage.getItem("token");
+    if (savedToken) {
+      config.headers.Authorization = `Bearer ${savedToken}`;
+    }
+    return config;
+  },
+  (error) => Promise.reject(error),
+);
+
 const AuthContextProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [token, setToken] = useState(null);
@@ -14,16 +33,17 @@ const AuthContextProvider = ({ children }) => {
       setToken(savedToken);
     }
   }, []);
-  const BASE_URL = "https://taskssystems.runasp.net/api";
 
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await axios.post(`${BASE_URL}/Auth/login`, {
+      const res = await api.post("/Auth/login", {
         email,
         password,
       });
+
       console.log("LOGIN RESPONSE:", res.data);
+
       setToken(res.data.token);
       setUser({ email });
       localStorage.setItem("token", res.data.token);
@@ -37,7 +57,7 @@ const AuthContextProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post(`${BASE_URL}/Auth/register`, {
+      const res = await api.post("/Auth/register", {
         name,
         email,
         password,
@@ -45,6 +65,7 @@ const AuthContextProvider = ({ children }) => {
       return res.data;
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data);
+      throw error;
     }
   };
 
@@ -56,7 +77,7 @@ const AuthContextProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ user, token, loading, login, logout, register }}
+      value={{ user, token, loading, login, logout, register, api }}
     >
       {children}
     </AuthContext.Provider>
