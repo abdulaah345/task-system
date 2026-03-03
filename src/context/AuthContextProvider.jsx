@@ -14,20 +14,16 @@ const AuthContextProvider = ({ children }) => {
       setToken(savedToken);
     }
   }, []);
+  const BASE_URL = "https://taskssystems.runasp.net/api";
 
   const login = async (email, password) => {
     setLoading(true);
     try {
-      const res = await axios.post(
-        "http://taskssystems.runasp.net/api/Auth/login",
-        {
-          email,
-          password,
-        },
-      );
-
+      const res = await axios.post(`${BASE_URL}/Auth/login`, {
+        email,
+        password,
+      });
       console.log("LOGIN RESPONSE:", res.data);
-
       setToken(res.data.token);
       setUser({ email });
       localStorage.setItem("token", res.data.token);
@@ -41,14 +37,11 @@ const AuthContextProvider = ({ children }) => {
 
   const register = async (name, email, password) => {
     try {
-      const res = await axios.post(
-        "http://taskssystems.runasp.net/api/Auth/register",
-        {
-          name,
-          email,
-          password,
-        },
-      );
+      const res = await axios.post(`${BASE_URL}/Auth/register`, {
+        name,
+        email,
+        password,
+      });
       return res.data;
     } catch (error) {
       console.error("REGISTER ERROR:", error.response?.data);
