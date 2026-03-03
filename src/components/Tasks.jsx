@@ -4,7 +4,7 @@ import { AuthContext } from "../context/AuthContextProvider";
 import TaskColumn from "./TaskColumn";
 import Modal from "./Model";
 
-const API = "http://tasksystems.runasp.net/api/Tasks";
+const API = "http://taskssystems.runasp.net/api/Tasks";
 
 const Tasks = () => {
   const { token } = useContext(AuthContext);

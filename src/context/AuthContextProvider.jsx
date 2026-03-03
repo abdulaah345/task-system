@@ -19,7 +19,7 @@ const AuthContextProvider = ({ children }) => {
     setLoading(true);
     try {
       const res = await axios.post(
-        "http://tasksystems.runasp.net/api/Auth/login",
+        "http://taskssystems.runasp.net/api/Auth/login",
         {
           email,
           password,
@@ -42,7 +42,7 @@ const AuthContextProvider = ({ children }) => {
   const register = async (name, email, password) => {
     try {
       const res = await axios.post(
-        "http://tasksystems.runasp.net/api/Auth/register",
+        "http://taskssystems.runasp.net/api/Auth/register",
         {
           name,
           email,
