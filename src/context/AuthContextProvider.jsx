@@ -11,6 +11,7 @@ const api = axios.create({
   headers: {
     "Content-Type": "application/json", // مهم للـ Production
   },
+  withCredentials: false,
 });
 
 // 🔥 Interceptor علشان يبعت التوكن تلقائيًا لأي request بعد login
